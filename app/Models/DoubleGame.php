@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class DoubleGame extends Game
 {
     protected $table = 'doubles';
-    protected $fillable = ['groupId', 'opponent1', 'opponent2', 'opponent3', 'opponent4', 'score1', 'score2', 'deletable'];
+    protected $fillable = ['groupId', 'opponent1', 'opponent2', 'opponent3', 'opponent4', 'score1', 'score2', 'deletable', 'sets'];
     public $timestamps = false;
 
     public function isWinner(int $playerID): bool {
