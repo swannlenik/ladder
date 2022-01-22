@@ -1,0 +1,82 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer components {
+    .btn-primary {
+        @apply py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
+    }
+
+    .btn-success {
+        @apply bg-green-500 hover:bg-green-700 text-white text-center py-2 px-4 rounded
+    }
+
+    .btn-white {
+        @apply bg-white hover:bg-gray-200 text-black text-center py-2 px-4 rounded
+    }
+    .btn-black {
+        @apply bg-black hover:bg-gray-900 text-white text-center py-2 px-4 rounded
+    }
+    .btn-gray {
+        @apply bg-gray-500 hover:bg-gray-700 text-white text-center py-2 px-4 rounded
+    }
+    .btn-red {
+        @apply bg-red-500 hover:bg-red-700 text-white text-center py-2 px-4 rounded
+    }
+    .btn-yellow {
+        @apply bg-yellow-500 hover:bg-yellow-700 text-white text-center py-2 px-4 rounded
+    }
+    .btn-green {
+        @apply bg-green-500 hover:bg-green-700 text-white text-center py-2 px-4 rounded
+    }
+    .btn-blue {
+        @apply bg-blue-500 hover:bg-blue-700 text-white text-center py-2 px-4 rounded
+    }
+    .btn-indigo {
+        @apply bg-indigo-500 hover:bg-indigo-700 text-white text-center py-2 px-4 rounded
+    }
+    .btn-purple {
+        @apply bg-purple-500 hover:bg-purple-700 text-white text-center py-2 px-4 rounded
+    }
+    .btn-pink {
+        @apply bg-pink-500 hover:bg-pink-700 text-white text-center py-2 px-4 rounded
+    }
+
+    .alert-error {
+        @apply bg-orange-100 border-l-2 border-orange-500 text-orange-700 p-2
+
+    .alert-top {
+        @apply pt-2 pb-0
+    }
+
+    .alert-bottom {
+        @apply pt-0 pb-2
+    }
+
+    .input-error {
+        @apply border-red-600 bg-red-50
+    }
+
+    .message-yellow {
+        @apply bg-yellow-500 text-white text-center py-2 px-4 rounded
+    }
+
+    input[type="submit"]:hover,
+    a:hover {
+        cursor: pointer;
+    }
+
+    a {
+        text-decoration: underline;
+    }
+}
+
+.group__player-ranking--gold {
+    background-color: #FFD700;
+}
+.group__player-ranking--silver {
+    background-color: #C0C0C0;
+}
+.group__player-ranking--bronze {
+    background-color: #CD7F32;
+}

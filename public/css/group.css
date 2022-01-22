@@ -1,0 +1,244 @@
+.group {
+    width: 100%;
+    margin: auto;
+    border: 1px solid #000;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.group__title {
+    width: 100%;
+    text-align: center;
+    order: 1;
+}
+
+.group__players,
+.group__games {
+    order: 2;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.group__games {
+    margin-top: 30px;
+    order: 3;
+}
+
+.group__players-header,
+.group__game-header {
+    font-size: 20px;
+    font-style: italic;
+    color: #444444;
+    background: #BBB;
+}
+
+.group__players-header,
+.group__player-details,
+.group__game-header,
+.group__game {
+    order: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+}
+
+.group__player-header-name,
+.group__player-name,
+.group__game-header-title,
+.group__game-title {
+    order: 1;
+    flex-grow: 2;
+    border: 1px solid #000;
+}
+
+.group__game-header-title--second,
+.group__game-title--second {
+    border-left: 0px;
+}
+
+.group__player-header-victory,
+.group__player-header-points,
+.group__player-header-ranking,
+.group__player-victory,
+.group__player-points,
+.group__player-ranking,
+.group__game-header-score,
+.group__game-header-update,
+.group__game-update,
+.group__game-score {
+    order: 2;
+    width: 100px;
+    border: 1px solid #000;
+    border-left: 0px;
+}
+
+.group__game-header-update,
+.group__game-update,
+.group__game-header-score,
+.group__game-score {
+    order: 1;
+}
+
+.group__player-name,
+.group__player-victory,
+.group__player-points,
+.group__player-ranking,
+.group__game-title,
+.group__game-update,
+.group__game-score {
+    border-top: 0px;
+}
+.group__game-update,
+.group__game-header-update
+{
+    flex-grow: 3;
+}
+.group__game-title,
+.group__game-header-title {
+    width: 33%;
+}
+
+.group__player-details:hover,
+.group__game:hover {
+    background-color: #DDD;
+    cursor: pointer;
+}
+
+.group--game-score--winner {
+    background: #90EE90;
+}
+
+.group__player-ranking {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.group__player-ranking--gold {
+    background-color: #FFD700;
+}
+.group__player-ranking--silver {
+    background-color: #C0C0C0;
+}
+.group__player-ranking--bronze {
+    background-color: #CD7F32;
+}
+
+.group__container > form input {
+    line-height: 30px;
+}
+
+.group__container > form {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.group__new-title input {
+    width: 95%;
+    max-width: 500px;
+}
+
+.group__player-available {
+    width: 25%;
+    order: 2;
+    display: flex;
+    flex-direction: row;
+    line-height: 50px;
+}
+
+.group__player-available-name {
+    order: 2;
+    flex-grow: 2;
+}
+
+.group__player-available-is-in-group {
+    order: 1;
+    width: 50px;
+    text-align: center;
+}
+
+.group__player-is-in-group--checkbox {
+    margin: 0;
+    height: 50px;
+}
+
+.group__player-available-submit-button,
+.group__new-title {
+    width: 100%;
+    order: 4;
+    text-align: left;
+}
+.group__new-title {
+    order: 1;
+}
+
+.group__player-available-submit-button input {
+    margin-left: 10px;
+    height: 30px;
+}
+
+.multiple__header {
+    order: 1;
+    width: 100%;
+}
+
+.multiple__players-list {
+    order: 2;
+    width: 100%;
+}
+
+.multiple__form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.multiple__players-list-item {
+    order: 1;
+    width: 33%;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+}
+
+.multiple__players-list-item-name {
+    order: 1;
+    width: 35%;
+    line-height: 30px;
+}
+
+.multiple__players-list-item-group {
+    order: 2;
+    width: 65%;
+}
+
+.multiple__players-list-item-group input {
+    width: 95%;
+    height: 30px;
+}
+
+.multiple__form-submit {
+    order: 2;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.multiple__form-submit input {
+    height: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.multiple__form-information {
+    order: 3;
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    border-radius: 0.25em;
+    margin-top: 20px;
+}

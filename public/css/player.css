@@ -1,0 +1,74 @@
+.players-list__header {
+    order: 1;
+    width: 100%;
+}
+
+.players-list {
+    order: 2;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.players-name {
+    order: 1;
+    width: 25%;
+    height: 25px;
+}
+
+.players-name p {
+    margin: 5px;
+    text-align: left;
+}
+
+.players-name:hover {
+    background-color: #CCC;
+}
+
+.players-list__form {
+    order: 3;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-top: 50px;
+    border-top: 1px solid #000;
+    padding-top: 20px;
+}
+
+.players-list__form p {
+    width: 200px;
+}
+
+.players-list__input {
+    order: 2;
+    width: 50%;
+    flex-grow: 2;
+    height: 40px;
+}
+
+.players-list__input--small {
+    width: 100px;
+}
+
+.players-list__input-text {
+    line-height: 36px;
+    width: 100%;
+    padding: 0 0 0 5px;
+}
+
+.players-list__input-button {
+    height: 40px;
+}
+
+.player-delete {
+    width: 20px;
+    height: 20px;
+    text-align: right;
+}
+
+.player-delete {
+    line-height: 12px;
+    font-size: 14px;
+    margin-left: 15px;
+}

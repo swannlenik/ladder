@@ -1,0 +1,112 @@
+.ladder__title {
+    width: 100%;
+    order: 1;
+}
+
+.ladder__list-container,
+.group__list-container {
+    order: 2;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.ladder__list-element,
+.group__list-element,
+.ladder__list-element-new {
+    order: 2;
+    display: flex;
+    flex-direction: row;
+}
+.ladder__list-element:hover,
+.group__list-element:hover{
+    background-color: #CCC;
+}
+
+.ladder__list-element--title,
+.group__list-element--title,
+.ladder__list-element--title-new {
+    order: 1;
+    flex-grow: 2;
+    border: 1px solid #000;
+    border-top: 0;
+}
+.ladder__list-element--title-new {
+    text-align: center;
+}
+
+.ladder__list-element--date,
+.ladder__list-element--single,
+.ladder__list-element--date-new {
+    order: 2;
+    width: 200px;
+    text-align: center;
+    border: 1px solid #000;
+    border-left: 0;
+    border-top: 0;
+}
+
+.ladder__list-element--view,
+.group__list-element--view,
+.ladder__list-element--view-new {
+    order: 3;
+    width: 100px;
+    text-align: center;
+    border: 1px solid #000;
+    border-left: 0;
+    border-top: 0;
+}
+
+.ladder__list-element-header,
+.group__list-element-header {
+    order: 1;
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    font-style: italic;
+}
+
+.ladder__list-element--title-header,
+.group__list-element--title-header {
+    order: 1;
+    flex-grow: 2;
+    border: 1px solid #000;
+}
+
+.ladder__list-element--date-header,
+.ladder__list-element--single-header {
+    order: 2;
+    width: 200px;
+    text-align: center;
+    border: 1px solid #000;
+    border-left: 0;
+}
+
+.ladder__list-element--view-header,
+.group__list-element--view-header {
+    order: 3;
+    width: 100px;
+    text-align: center;
+    border: 1px solid #000;
+    border-left: 0;
+}
+
+.ladder__list-element-new > form {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.ladder__list-element-new > form input {
+    text-align: center;
+    height: 30px;
+    width: 95%;
+}
+
+.ladder__list-element-new > form input[type='checkbox'] {
+    height: 20px;
+}
+
+.ladder__list-element--view-new--large {
+    width: 201px;
+}
