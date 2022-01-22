@@ -28,7 +28,7 @@
                 </div>
 
                 @if (isset($user))
-                    <div class="w-full p-2 mt-60">
+                    <div class="w-full p-2 mt-6">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                             {{ __('User') }} {{ $user->name }}
                         </h2>
