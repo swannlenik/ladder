@@ -35,7 +35,8 @@ class Routes
         'VIEW_PLAYERS' => 'Page to View ALL Players',
         'VIEW_USERS' => 'Page to Manage Users',
         'LADDER_RANKING' => 'Page to view ranking of ALL Groups in the Ladder',
-
+        'DUPLICATE_LADDER' => 'Page to duplicate an existing Ladder',
+        'SAVE_DUPLICATE_LADDER' => 'Save Duplicate Ladder',
     ];
 
 }

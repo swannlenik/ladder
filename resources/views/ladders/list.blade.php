@@ -12,11 +12,10 @@
                     <table class="border-collapse border border-slate-400 w-full">
                         <thead class="bg-slate-100">
                         <tr>
-                            <th class="border border-slate-300 p-2">Name</th>
-                            <th class="border border-slate-300 p-2">Date</th>
-                            <th class="border border-slate-300 p-2 text-center">Singles / Doubles</th>
-                            <th class="border border-slate-300 p-2 text-center">Link</th>
-                            <th class="border border-slate-300 p-2 text-center">Delete</th>
+                            <th class="border border-slate-300 p-2">{{ __('Name') }}</th>
+                            <th class="border border-slate-300 p-2">{{ __('Date') }}</th>
+                            <th class="border border-slate-300 p-2 text-center">{{ __('Singles / Doubles') }}</th>
+                            <th class="border border-slate-300 p-2 text-center">{{ __('Actions') }}</th>
                         </tr>
                         </thead>
 
@@ -29,11 +28,12 @@
                                 <td class="border border-slate-300 p-2">{{ $ladder->getDateToString() }}</td>
                                 <td class="border border-slate-300 p-2 text-center">{{ $ladder->isSingle ? 'Singles' : 'Doubles' }}</td>
                                 <td class="border border-slate-300 p-2 text-center">
-                                    <a href="{{ route('view.ladder', ['ladderID' => $ladder->id]) }}" class="btn-gray">View</a>
-                                </td>
-                                <td class="border border-slate-300 p-2 text-center">
-                                    @if (isset($accessRights['delete.ladder']) && $accessRights['delete.ladder'] === 'RW')
-                                        <a href="{{ route('delete.ladder', ['ladderID' => $ladder->id]) }}" class="btn-red">Delete</a>
+                                    <a href="{{ route('view.ladder', ['ladderID' => $ladder->id]) }}" class="btn-gray mx-2">{{ __('View') }}</a>
+                                    @if (isset($accessRights['duplicate.ladder']) && $accessRights['delete.ladder'] === 'RW')
+                                    <a href="{{ route('duplicate.ladder', ['ladderID' => $ladder->id]) }}" class="btn-green mx-2">{{ __('Duplicate') }}</a>
+                                    @endif
+                                    @if (isset($accessRights['delete.ladder']) && $accessRights['duplicate.ladder'] === 'RW')
+                                        <a href="{{ route('delete.ladder', ['ladderID' => $ladder->id]) }}" class="btn-red mx-2">{{ __('Delete') }}</a>
                                     @endif
                                 </td>
                             </tr>
@@ -65,6 +65,7 @@
                         @endif
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </div>

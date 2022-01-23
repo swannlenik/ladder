@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Http\Services;
 
 
+use App\Models\Ladder;
 use App\Models\Player;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -75,9 +76,10 @@ class PlayersService
         return $players;
     }
 
-    public function getPlayersAvailableByLadderId(int $ladderID): array {
+    public function getPlayersAvailableByLadderId(Ladder $ladder): array {
         $players = [];
-        $playersFromDB = DB::select('
+        if ($ladder->isSingle) {
+            $playersFromDB = DB::select('
             SELECT pa.* FROM players pa WHERE id NOT IN (
             SELECT DISTINCT p.id
             FROM ladders l
@@ -85,7 +87,28 @@ class PlayersService
             RIGHT JOIN games ga ON ga.groupId = g.id
             RIGHT JOIN players p ON p.id = ga.opponent1 OR p.id = ga.opponent2
             WHERE l.id = ?) AND pa.available = 1
-            ORDER BY pa.name ASC', [$ladderID]);
+            ORDER BY pa.name ASC', [$ladder->id]);
+        } else {
+            $playersFromDB = DB::select('
+            SELECT pa.* FROM players pa WHERE id NOT IN (
+            SELECT DISTINCT p.id
+            FROM ladders l
+            RIGHT JOIN groups g ON g.ladderId = l.id
+            RIGHT JOIN doubles d ON d.groupId = g.id
+            RIGHT JOIN players p ON p.id = d.opponent1 OR p.id = d.opponent2 OR p.id = d.opponent3 OR p.id = d.opponent4
+            WHERE l.id = ?) AND pa.available = 1
+            ORDER BY pa.name ASC', [$ladder->id]);
+        }
+        foreach ($playersFromDB as $player) {
+            $players[$player->id] = $player;
+        }
+
+        return $players;
+    }
+
+    public function getPlayersAvailable(): array {
+        $players = [];
+        $playersFromDB = Player::where('available', '=', 1)->get();
         foreach ($playersFromDB as $player) {
             $players[$player->id] = $player;
         }
@@ -141,5 +164,19 @@ class PlayersService
 
     public function setAllPlayersAvailable(): void {
         DB::update('UPDATE players SET available = 1');
+    }
+
+    public function sortPlayersByGroupName(array $players, bool $noEmptyGroupName = true): array {
+        $sortedPlayers = [];
+        foreach ($players as $id => $groupName) {
+            if ($noEmptyGroupName && empty($groupName)) {
+                continue;
+            }
+            if (!empty($id)) {
+                $sortedPlayers[$groupName][] = $id;
+            }
+        }
+
+        return $sortedPlayers;
     }
 }

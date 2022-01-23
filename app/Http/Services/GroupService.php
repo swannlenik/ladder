@@ -6,19 +6,24 @@ declare(strict_types=1);
 namespace App\Http\Services;
 
 
-use App\Models\Game;
 use App\Models\Group;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class GroupService
 {
+    protected PlayersService $playersService;
+    public function __construct(PlayersService $playersService)
+    {
+        $this->playersService = $playersService;
+    }
+
     public function getGroupById(int $groupID): Group {
         return Group::find($groupID);
     }
 
     public function getGroupsByLadderId(int $ladderID): Collection {
-        return Group::where('ladderId', '=', $ladderID)->orderBy('id')->get();
+        return Group::where('ladderId', '=', $ladderID)->orderBy('groupName')->get();
     }
 
     public function getGroupsByPlayerId(int $playerID): array {
@@ -110,19 +115,8 @@ class GroupService
         return $ladderID;
     }
 
-    public function sortGroups(array $players): array {
-        $results = [];
-        foreach ($players as $id => $group) {
-            if (isset($group) && trim($group) !== '') {
-                $results[$group][] = $id;
-            }
-        }
-
-        return $results;
-    }
-
     public function createMultipleGroups(array $unsortedPlayers, int $ladderID, bool $isSingle): array {
-        $sortedPlayers = $this->sortGroups($unsortedPlayers);
+        $sortedPlayers = $this->playersService->sortPlayersByGroupName($unsortedPlayers);
         $groups = [];
 
         foreach (array_keys($sortedPlayers) as $groupName) {
