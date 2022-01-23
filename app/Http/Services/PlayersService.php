@@ -14,7 +14,7 @@ class PlayersService
 {
     public function getAllPLayers(): Collection {
         $list = [];
-        $players = Player::all();
+        $players = Player::orderBy('name')->get();
         foreach ($players as $player) {
             $list[$player->id] = $player;
         }
@@ -84,7 +84,8 @@ class PlayersService
             RIGHT JOIN groups g ON g.ladderId = l.id
             RIGHT JOIN games ga ON ga.groupId = g.id
             RIGHT JOIN players p ON p.id = ga.opponent1 OR p.id = ga.opponent2
-            WHERE l.id = ?) AND pa.available = 1', [$ladderID]);
+            WHERE l.id = ?) AND pa.available = 1
+            ORDER BY pa.name ASC', [$ladderID]);
         foreach ($playersFromDB as $player) {
             $players[$player->id] = $player;
         }
@@ -101,7 +102,8 @@ class PlayersService
             RIGHT JOIN groups g ON g.ladderId = l.id
             RIGHT JOIN doubles d ON d.groupId = g.id
             RIGHT JOIN players p ON p.id = d.opponent1 OR p.id = d.opponent2 OR p.id = d.opponent3 OR p.id = d.opponent4
-            WHERE l.id = ?) AND pa.available = 1', [$ladderID]);
+            WHERE l.id = ?) AND pa.available = 1
+            ORDER BY pa.name ASC', [$ladderID]);
         foreach ($playersFromDB as $player) {
             $players[$player->id] = $player;
         }

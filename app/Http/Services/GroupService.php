@@ -33,6 +33,7 @@ class GroupService
                 OR d.opponent2 = ?
                 OR d.opponent3 = ?
                 OR d.opponent4 = ?
+            ORDER BY g.groupName ASC
         ', [$playerID, $playerID, $playerID, $playerID, $playerID, $playerID]);
     }
 

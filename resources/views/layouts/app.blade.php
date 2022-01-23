@@ -38,8 +38,8 @@
             @endif
 
             @if (isset($footer))
-            <footer class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <footer class="bg-white shadow text-center">
+                <div class="w-full mx-auto py-6 px-2 sm:px-4 lg:px-4">
                     {{ $footer }}
                 </div>
             </footer>
