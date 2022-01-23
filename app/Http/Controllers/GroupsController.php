@@ -94,7 +94,7 @@ class GroupsController extends Controller
 
     public function create(int $ladderID): View {
         $ladder = $this->ladderService->findById($ladderID);
-        $players = $this->playersService->getPlayersAvailableByLadderId($ladderID);
+        $players = $this->playersService->getPlayersAvailableByLadderId($ladder);
         $links = array_merge($this->getCommonLinks(),
             [
                 [
@@ -151,7 +151,7 @@ class GroupsController extends Controller
     public function createMultiple(int $ladderID): View {
         $ladder = $this->ladderService->findById($ladderID);
         if ((bool)$ladder->isSingle) {
-            $players = $this->playersService->getPlayersAvailableByLadderId($ladderID);
+            $players = $this->playersService->getPlayersAvailableByLadderId($ladder);
         } else {
             $players = $this->playersService->getDoublePlayersAvailableByLadderId($ladderID);
         }

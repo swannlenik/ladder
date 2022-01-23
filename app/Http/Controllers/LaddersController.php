@@ -10,8 +10,10 @@ use App\Http\Services\AccessRightsService;
 use App\Http\Services\GroupService;
 use App\Http\Services\LadderService;
 use App\Http\Services\PlayersService;
+use App\Rules\PlayersArray;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
 class LaddersController extends Controller
@@ -47,8 +49,9 @@ class LaddersController extends Controller
     {
         $ladders = $this->ladderService->getAll();
         $this->navigationLinks = $this->getNavigationLinks(auth()->user()->getAuthIdentifier());
-        $listAccessRights = $this->accessRightsService->hasAccessToPages(auth()->user()->getAuthIdentifier(), ['delete.ladder', 'create.ladder']);
+        $listAccessRights = $this->accessRightsService->hasAccessToPages(auth()->user()->getAuthIdentifier(), ['delete.ladder', 'create.ladder', 'duplicate.ladder']);
         unset($this->links['bunch']);
+
         return view('ladders/list', [
             'ladders' => $ladders,
             'links' => $this->links,
@@ -72,6 +75,12 @@ class LaddersController extends Controller
             'name' => 'Ladder Rankings',
             'href' => route('ladder.ranking', ['ladderID' => $ladderID]),
         ];
+        $this->links['duplicate'] = [
+            'name' => 'Duplicate Ladder',
+            'href' => route('duplicate.ladder', ['ladderID' => $ladderID]),
+            'class' => 'btn-green',
+        ];
+
 
         return view('ladders/view', [
             'ladder' => $ladder,
@@ -108,7 +117,11 @@ class LaddersController extends Controller
             [
                 'name' => 'Back to Ladder',
                 'href' => route('view.ladder', ['ladderID' => $ladderID]),
-            ]
+            ],
+            [
+                'name' => 'Duplicate Ladder',
+                'href' => route('duplicate.ladder', ['ladderID' => $ladderID]),
+            ],
         ];
 
         return view('ladders/rankings', [
@@ -143,5 +156,51 @@ class LaddersController extends Controller
         $ladder->forceDelete();
 
         return redirect()->route('view.all.ladders');
+    }
+
+    public function duplicate(int $ladderID): View {
+        $ladder = $this->ladderService->findById($ladderID);
+        $groups = $this->groupService->getGroupsByLadderId($ladderID);
+        $players = $this->ladderService->getPlayersByLadderId($ladder);
+        $availablePlayers = $this->playersService->getPlayersAvailableByLadderId($ladder);
+
+        return view('ladders/duplicate', [
+            'ladder' => $ladder,
+            'groups' => $groups,
+            'players' => $players,
+            'available' => $availablePlayers,
+            'links' => [],
+            'navigationLinks' => $this->getNavigationLinks(),
+        ]);
+    }
+
+    public function saveDuplicate(Request $request): RedirectResponse {
+        $ladder = $this->ladderService->findById((int)$request->post('duplicate-ladder-id'));
+
+        $validator = Validator::make($request->all(), [
+            'ladder-name' => 'required|string|min:10|max:64',
+            'ladder-date' => 'required|date_format:Y-m-d|size:10',
+            'players-list' => ['required', new PlayersArray($ladder)],
+        ], [
+            'ladder-name.required' => 'A Name is required',
+            'ladder-name.min' => 'Ladder Name cannot be smaller than 10 characters',
+            'ladder-name.max' => 'Ladder Name cannot be greater than 64 characters',
+            'ladder-date.required' => 'A Date is required',
+            'ladder-date.date_format' => 'Format is not correct. Must be: YYYY-MM-DD',
+        ]);
+        //dd($request->post(), $validator->fails(), $validator->errors());
+        $validator->validate();
+
+        if ($validator->fails()) {
+            return redirect()->route('duplicate.ladder', ['ladderID' => $request->post('duplicate-ladder-id')])
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $params = $request->post();
+        $params['ladder-is-single'] = (bool)$ladder->isSingle;
+        $result = $this->ladderService->duplicateLadder($params);
+
+        return redirect()->route('view.ladder', ['ladderID' => $result['ladder']->id]);
     }
 }
