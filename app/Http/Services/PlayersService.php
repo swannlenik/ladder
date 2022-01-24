@@ -179,4 +179,50 @@ class PlayersService
 
         return $sortedPlayers;
     }
+
+    public function getNewOrder(Collection &$players, Collection $groups, array &$statistics): array {
+        $newOrder = [];
+        $resetIndex = $statistics;
+        sort($resetIndex);
+        $keys = array_keys($statistics);
+        $index = 0;
+
+        $item = reset($statistics);
+        do {
+            $gid = key($statistics);
+            $first = reset($item);
+            $last = end($item);
+            $groupPosition = array_search(key($statistics), $keys);
+
+            foreach ($item as $playerID => $player) {
+                if ($player === $first) {
+                    if ($index > 0) {
+                        $prevIndex = $index - 1;
+                        $l = $statistics[$keys[$prevIndex]];
+                        end($l);
+                        $pid = key($l);
+                        $newOrder[$pid] = $players[$pid];
+                        $newOrder[$pid]->groupId = $gid;
+                    } else {
+                        $newOrder[$playerID] = $players[$playerID];
+                    }
+                } elseif ($player === $last) {
+                    if ($index + 1 < count($groups)) {
+                        $nextIndex = $index + 1;
+                        $pid = key($statistics[$keys[$nextIndex]]);
+                        $newOrder[$pid] = $players[$pid];
+                        $newOrder[$pid]->groupId = $gid;
+                    } else {
+                        $newOrder[$playerID] = $players[$playerID];
+                    }
+                } else {
+                    $newOrder[$playerID] = $players[$playerID];
+                }
+            }
+
+            $index++;
+        } while ($item = next($statistics));
+
+        return $newOrder;
+    }
 }

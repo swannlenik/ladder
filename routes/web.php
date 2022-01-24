@@ -55,6 +55,7 @@ Route::middleware('auth')->prefix('groups')->group(function () {
 Route::middleware('auth')->prefix('ladders')->group(function () {
     Route::get('/list', [LaddersController::class, 'list'])->name('view.all.ladders');
     Route::get('/duplicate/{ladderID}', [LaddersController::class, 'duplicate'])->name('duplicate.ladder');
+    Route::get('/next/{ladderID}', [LaddersController::class, 'next'])->name('next.ladder');
     Route::post('/saveDuplicate/', [LaddersController::class, 'saveDuplicate'])->name('save.duplicate.ladder');
     Route::get('/ranking/{ladderID}', [LaddersController::class, 'ranking'])->name('ladder.ranking');
     Route::get('/view/{ladderID}', [LaddersController::class, 'view'])->name('view.ladder');

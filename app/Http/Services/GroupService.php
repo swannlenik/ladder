@@ -22,8 +22,8 @@ class GroupService
         return Group::find($groupID);
     }
 
-    public function getGroupsByLadderId(int $ladderID): Collection {
-        return Group::where('ladderId', '=', $ladderID)->orderBy('groupName')->get();
+    public function getGroupsByLadderId(int $ladderID, string $orderBy = 'groupName'): Collection {
+        return Group::where('ladderId', '=', $ladderID)->orderBy($orderBy)->get();
     }
 
     public function getGroupsByPlayerId(int $playerID): array {
@@ -93,6 +93,7 @@ class GroupService
             'groupName' => $params['group-name'] ?? $params['groupName'],
             'ladderId' => $params['group-ladder-id'] ?? $params['ladderID'],
             'isSingle' => $params['isSingle'] ?? $isSingle,
+            'rank' => $params['group-rank'] ?? $params['rank'] ?? 0,
         ]);
         return $group;
     }
@@ -118,14 +119,17 @@ class GroupService
     public function createMultipleGroups(array $unsortedPlayers, int $ladderID, bool $isSingle): array {
         $sortedPlayers = $this->playersService->sortPlayersByGroupName($unsortedPlayers);
         $groups = [];
+        $ranking = 1;
 
         foreach (array_keys($sortedPlayers) as $groupName) {
             $group = $this->createGroup([
                 'groupName' => $groupName,
                 'ladderID' => $ladderID,
                 'isSingle' => $isSingle ? 1 : 0,
+                'rank' => $ranking,
             ]);
             $groups[$group->id] = $group;
+            $ranking++;
         }
         return $groups;
     }

@@ -54,7 +54,7 @@
                                                value="{{ date('Y-m-d') }}"/>
                                     </td>
                                     <td class="border border-slate-300 p-2 text-center">
-                                        <input type="checkbox" name="ladder-is-single" placeholder=""
+                                        <input type="checkbox" name="ladder-is-single" placeholder="" value="1"
                                                checked="checked"/>
                                     </td>
                                     <td class="border border-slate-300 text-center" colspan="2">
