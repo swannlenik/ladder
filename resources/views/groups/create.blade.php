@@ -17,6 +17,9 @@
                             @error('group-name')
                             <div class="alert-error">{{ $message }}</div>
                             @endif
+                            @error('group-rank')
+                            <div class="alert-error">{{ $message }}</div>
+                            @endif
                         </div>
                     @endif
 
@@ -29,6 +32,13 @@
                         </div>
                         <div class="py-2 w-full">
                             <input type="text" name="group-name" placeholder="{{ __('Group Name') }}" value="{{ old('group-name') }}" class="w-full {{ $errors->first('group-name') != null ? 'input-error' : '' }}" />
+                        </div>
+
+                        <div class="w-full mt-6">
+                            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Group rank') }}</h2>
+                        </div>
+                        <div class="py-2 w-full">
+                            <input type="text" name="group-rank" placeholder="{{ __('Group Ranking') }}" value="{{ old('group-rank') }}" class="w-full {{ $errors->first('group-rank') != null ? 'input-error' : '' }}" />
                         </div>
 
                         <div class="w-full mt-6">

@@ -70,6 +70,14 @@
     a {
         text-decoration: underline;
     }
+
+    .border-l-1 {
+        border-left-width: 1px;
+    }
+
+    .border-l-2 {
+        border-left-width: 2px;
+    }
 }
 
 .group__player-ranking--gold {

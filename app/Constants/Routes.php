@@ -37,6 +37,7 @@ class Routes
         'LADDER_RANKING' => 'Page to view ranking of ALL Groups in the Ladder',
         'DUPLICATE_LADDER' => 'Page to duplicate an existing Ladder',
         'SAVE_DUPLICATE_LADDER' => 'Save Duplicate Ladder',
+        'NEXT_LADDER' => 'Page to create the Next Ladder (new groups based on global ranking)',
     ];
 
 }

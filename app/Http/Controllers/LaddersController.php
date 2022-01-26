@@ -104,7 +104,7 @@ class LaddersController extends Controller
         $statisticsByGroup = [];
         $playersByGroup = [];
         $ladder = $this->ladderService->findById($ladderID);
-        $groups = $this->groupService->getGroupsByLadderId($ladderID);
+        $groups = $this->groupService->getGroupsByLadderId($ladderID, 'rank');
         foreach ($groups as $group) {
             if ($group->isSingle === 1) {
                 $playersByGroup[$group->id] = $this->playersService->getPlayersByGroupId($group->id);
@@ -121,6 +121,11 @@ class LaddersController extends Controller
             [
                 'name' => 'Duplicate Ladder',
                 'href' => route('duplicate.ladder', ['ladderID' => $ladderID]),
+            ],
+            [
+                'name' => 'Next Ladder',
+                'href' => route('next.ladder', ['ladderID' => $ladderID]),
+                'class' => 'btn-green',
             ],
         ];
 
@@ -159,16 +164,44 @@ class LaddersController extends Controller
     }
 
     public function duplicate(int $ladderID): View {
+        $statistics = [];
         $ladder = $this->ladderService->findById($ladderID);
-        $groups = $this->groupService->getGroupsByLadderId($ladderID);
+        $groups = $this->groupService->getGroupsByLadderId($ladderID, 'rank');
         $players = $this->ladderService->getPlayersByLadderId($ladder);
         $availablePlayers = $this->playersService->getPlayersAvailableByLadderId($ladder);
+        foreach ($groups as $group) {
+            $statistics[$group->id] = $this->groupService->getStatistics($group->id, (bool)$ladder->isSingle);
+        }
 
         return view('ladders/duplicate', [
             'ladder' => $ladder,
             'groups' => $groups,
             'players' => $players,
             'available' => $availablePlayers,
+            'statistics' => $statistics,
+            'links' => [],
+            'navigationLinks' => $this->getNavigationLinks(),
+        ]);
+    }
+
+    public function next(int $ladderID): View {
+        $statistics = [];
+        $ladder = $this->ladderService->findById($ladderID);
+        $groups = $this->groupService->getGroupsByLadderId($ladderID, 'rank');
+        $players = $this->ladderService->getPlayersByLadderId($ladder);
+        $availablePlayers = $this->playersService->getPlayersAvailableByLadderId($ladder);
+        foreach ($groups as $group) {
+            $statistics[$group->id] = $this->groupService->getStatistics($group->id, (bool)$ladder->isSingle);
+        }
+        $newOrderPlayers = $this->playersService->getNewOrder($players, $groups, $statistics);
+
+        return view('ladders/duplicate', [
+            'next' => true,
+            'ladder' => $ladder,
+            'groups' => $groups,
+            'players' => $newOrderPlayers,
+            'available' => $availablePlayers,
+            'statistics' => $statistics,
             'links' => [],
             'navigationLinks' => $this->getNavigationLinks(),
         ]);
