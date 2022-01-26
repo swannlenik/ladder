@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePlayersTable extends Migration
+class AddColumnOrderGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreatePlayersTable extends Migration
      */
     public function up()
     {
-        Schema::create('players', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->tinyInteger('deletable')->default(0);
-            $table->tinyInteger('isSingle')->default(1);
-            $table->unique('name');
+        Schema::table('groups', function (Blueprint $table) {
+            $table->integer('rank');
         });
     }
 
@@ -29,6 +25,6 @@ class CreatePlayersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('players');
+        Schema::dropColumns('gropups', ['rank']);
     }
 }
