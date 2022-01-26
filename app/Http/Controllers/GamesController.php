@@ -8,6 +8,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\PlayersService;
 use App\Http\Services\ResultsService;
+use App\Http\Services\SetsService;
+use App\Models\Game;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -16,12 +18,16 @@ class GamesController extends Controller
 {
     private ResultsService $resultsService;
     private PlayersService $playersService;
+    private SetsService $setsService;
 
     public function __construct(
         ResultsService $resultsService,
-        PlayersService $playersService) {
+        PlayersService $playersService,
+        SetsService $setsService) {
         $this->resultsService = $resultsService;
         $this->playersService = $playersService;
+        $this->setsService = $setsService;
+
         $this ->links = array_merge(//$this->getCommonLinks(),
                 [
                 'back-to-group' => [
@@ -61,7 +67,8 @@ class GamesController extends Controller
     }
 
     public function save(Request $request): RedirectResponse {
-        $game = $this->resultsService->saveGame($request->post());
+        $game = $this->resultsService->getGameById((int)$request->post('game-id'));
+        $this->setsService->saveScore($request->post());
         return redirect()->route('view.group', ['groupID' => $game->groupId]);
     }
 

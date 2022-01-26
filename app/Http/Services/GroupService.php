@@ -13,9 +13,11 @@ use Illuminate\Support\Facades\DB;
 class GroupService
 {
     protected PlayersService $playersService;
-    public function __construct(PlayersService $playersService)
+    protected SetsService $setsService;
+    public function __construct(PlayersService $playersService, SetsService $setsService)
     {
         $this->playersService = $playersService;
+        $this->setsService = $setsService;
     }
 
     public function getGroupById(int $groupID): Group {
@@ -117,6 +119,10 @@ class GroupService
 
         $group->forceDelete();
         foreach ($games as $game) {
+            $sets = $this->setsService->getSetsByGameId($game->id, $group->isSingle);
+            foreach ($sets as $set) {
+                $set->forceDelete();
+            }
             $game->forceDelete();
         }
 

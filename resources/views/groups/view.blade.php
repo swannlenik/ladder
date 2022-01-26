@@ -40,6 +40,7 @@
                             <form method="POST" action="{{ route((bool)$group->isSingle ? 'save.game' : 'save.double.game', $game->id) }}">
                                 @csrf
                                 <input type="hidden" name="game-id" value="{{ $game->id }}"/>
+                                <input type="hidden" name="is-single" value="{{ $group->isSingle }}" />
 
                                 @if ((bool)$group->isSingle)
                                     @include('groups/updateSingle')

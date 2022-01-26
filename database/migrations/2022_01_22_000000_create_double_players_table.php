@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSetsTable extends Migration
+class CreateDoublePlayersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateSetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sets', function (Blueprint $table) {
-            $table->integer('gameId');
-            $table->tinyInteger('isSingle')->default(1);
-            $table->integer('order')->default(1);
-            $table->integer('score1')->default(0);
-            $table->integer('score2')->default(0);
-            $table->primary(['gameId', 'isSingle', 'order']);
+        Schema::create('double_players', function (Blueprint $table) {
+            $table->integer('groupId');
+            $table->integer('player1');
+            $table->integer('player2');
+            $table->integer('player3');
+            $table->integer('player4');
+            $table->integer('player5')->default(0);
+            $table->primary(['groupId', 'player1', 'player2', 'player3', 'player4', 'player5']);
         });
     }
 
@@ -30,6 +31,6 @@ class CreateSetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sets');
+        Schema::dropIfExists('double_players');
     }
 }

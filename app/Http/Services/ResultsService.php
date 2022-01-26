@@ -10,6 +10,7 @@ use App\Models\DoubleGame;
 use App\Models\DoublePlayers;
 use App\Models\Game;
 use App\Models\Group;
+use App\Models\Ladder;
 use Illuminate\Support\Collection;
 
 class ResultsService
@@ -51,6 +52,13 @@ class ResultsService
         [0, 2, 3, 4],
         [1, 3, 2, 4],
     ];
+
+    protected SetsService $setsService;
+
+    public function __construct(SetsService $setsService)
+    {
+        $this->setsService = $setsService;
+    }
 
     public function getResults(?int $ladderID, ?int $groupID): array
     {
@@ -153,6 +161,7 @@ class ResultsService
 
     public function saveGame(array $params): Game
     {
+        dd($params);
         $game = $this->getGameById((int)$params['game-id']);
         $game->score1 = (int)$params['game-score-1'];
         $game->score2 = (int)$params['game-score-2'];
@@ -239,6 +248,7 @@ class ResultsService
         $games = [];
 
         foreach ($groups as $group) {
+            $ladder = Ladder::find($group->ladderId);
             $players = [];
             foreach ($unsortedPlayers as $playerID => $groupName) {
                 if ($groupName !== (string)$group->groupName) {
@@ -249,6 +259,7 @@ class ResultsService
 
             if ($isSingle) {
                 $game = $this->createGames($group, $players);
+                $sets = $this->setsService->createSets($game, $ladder);
             } else {
                 sort($players);
                 $game = $this->createDoubleGame($group, $players);

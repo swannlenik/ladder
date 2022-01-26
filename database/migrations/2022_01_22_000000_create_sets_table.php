@@ -16,10 +16,10 @@ class CreateSetsTable extends Migration
         Schema::create('sets', function (Blueprint $table) {
             $table->integer('gameId');
             $table->tinyInteger('isSingle')->default(1);
-            $table->integer('order')->default(1);
+            $table->integer('setsOrder')->default(1);
             $table->integer('score1')->default(0);
             $table->integer('score2')->default(0);
-            $table->primary(['gameId', 'isSingle', 'order']);
+            $table->primary(['gameId', 'isSingle', 'setsOrder']);
         });
     }
 

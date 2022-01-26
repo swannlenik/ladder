@@ -7,14 +7,19 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class Set extends Model
 {
     protected $table = 'sets';
-    protected $fillable = ['gameId', 'isSingle', 'order', 'score1', 'score2'];
-    protected $primaryKey = ['gameID', 'isSingle', 'order'];
+    protected $fillable = ['gameId', 'isSingle', 'setsOrder', 'score1', 'score2'];
+    protected $primaryKey = ['gameID', 'isSingle', 'setsOrder'];
     public $timestamps = false;
     public $incrementing = false;
+
+    public static function getSetsByGameId(int $gameID, int $isSingle = 1): ?Collection {
+        return Set::where('gameId', '=', $gameID)->where('isSingle', '=', $isSingle)->orderBy('setsOrder', 'asc')->get();
+    }
 
     public function getWinner(): int {
         if ($this->score1 === $this->score2) {
@@ -24,8 +29,9 @@ class Set extends Model
         return $this->score1 > $this->score2 ? 1 : 2;
     }
 
-    public function getPointsDifference(int $side = 1): int {
+    public function getDifference(int $side = 1): int {
         $difference = $this->score1 - $this->score2;
         return $side === 1 ? $difference : -($difference);
     }
+
 }

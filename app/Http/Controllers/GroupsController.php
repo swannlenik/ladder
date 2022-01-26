@@ -11,6 +11,7 @@ use App\Http\Services\GroupService;
 use App\Http\Services\LadderService;
 use App\Http\Services\PlayersService;
 use App\Http\Services\ResultsService;
+use App\Http\Services\SetsService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -23,19 +24,22 @@ class GroupsController extends Controller
     private GroupService $groupService;
     private ResultsService $resultsService;
     private LadderService $ladderService;
+    private SetsService $setsService;
 
     public function __construct(
         AccessRightsService $accessRightsService,
         PlayersService $playersService,
         GroupService $groupService,
         ResultsService $resultsService,
-        LadderService $ladderService
+        LadderService $ladderService,
+        SetsService $setsService
     ) {
         $this->accessRightsService = $accessRightsService;
         $this->playersService = $playersService;
         $this->groupService = $groupService;
         $this->resultsService = $resultsService;
         $this->ladderService = $ladderService;
+        $this->setsService = $setsService;
 
         $this->rankingClasses = [
             1 => 'group__player-ranking--gold',
@@ -47,15 +51,18 @@ class GroupsController extends Controller
 
     public function view(int $groupId): View {
         $group = $this->groupService->getGroupById($groupId);
+        $ladder = $this->ladderService->findById($group->ladderId);
         $groupsLinks = $this->groupService->getGroupsLinksByLadderId($group->ladderId);
         $listAccessRights = $this->accessRightsService->hasAccessToPages(auth()->user()->getAuthIdentifier(), ['update.game', 'update.double.game', 'create.group', 'create.groups']);
 
         if ($group->isSingle === 1) {
             $players = $this->playersService->getPlayersByGroupId($groupId);
             $games = $this->resultsService->getGamesByGroupId($groupId);
+            $sets = $this->setsService->getSetsByGroupId($groupId);
         } else {
             $players = $this->playersService->getDoublePlayersByGroupId($groupId);
             $games = $this->resultsService->getDoubleGamesByGroupId($groupId);
+            $sets = [];
         }
         $statistics = $this->groupService->getStatistics($groupId, (bool)$group->isSingle);
 
@@ -81,9 +88,11 @@ class GroupsController extends Controller
         }
 
         return \view('groups/view', [
+            'ladder' => $ladder,
             'group' => $group,
             'players' => $players,
             'games' => $games,
+            'sets' => $sets,
             'statistics' => $statistics,
             'links' => $this->links,
             'rankingClasses' => $this->rankingClasses,
@@ -135,6 +144,7 @@ class GroupsController extends Controller
         $group = $this->groupService->createGroup($params, $isSingle);
         if ($isSingle) {
             $games = $this->resultsService->createGames($group, $params['players']);
+            $sets = $this->setsService->createSets($games, $ladder);
         } else {
             $games = $this->resultsService->createDoubleGame($group, array_keys($params['players']));
         }

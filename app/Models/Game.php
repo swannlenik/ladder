@@ -16,22 +16,28 @@ class Game extends Model
     public $timestamps = false;
 
     public function getWinner(): int {
-        if ($this->score1 === $this->score2) {
-            return 0;
-        } else {
-            return $this->score1 > $this->score2 ? $this->opponent1 : $this->opponent2;
+        $sets = Set::getSetsByGameId($this->id);
+
+        $setsWonByP1 = 0;
+        $emptySets = count($sets);
+
+        foreach ($sets as $set) {
+            $emptySets -= ($set->score1 !== 0 || $set->score2 !== 0) ? 1 : 0;
+            $setsWonByP1 += $set->getWinner() === 1 ? 1 : 0;
         }
+
+        if ($setsWonByP1 === 0 && $emptySets === count($sets)) {
+            return 0;
+        }
+        return $setsWonByP1 > (count($sets) / 2) ? $this->opponent1 : $this->opponent2;
     }
 
     public function isWinner(int $playerID): bool {
-        if ($this->score1 === $this->score2) {
+        $winner = $this->getWinner();
+        if ($winner === 0) {
             return false;
         } else {
-            if ($playerID === $this->opponent1) {
-                return $this->score1 > $this->score2;
-            } else {
-                return $this->score1 < $this->score2;
-            }
+            return $winner === $playerID;
         }
     }
 
@@ -48,10 +54,14 @@ class Game extends Model
     }
 
     public function getPointsDifference(int $playerID): int {
-        if ($playerID === $this->opponent1) {
-            return $this->score1 - $this->score2;
-        } else {
-            return $this->score2 - $this->score1;
+        $sets = Set::getSetsByGameId($this->id);
+        $sidePlayerID = $playerID === $this->opponent1 ? 1 : 2;
+        $difference = 0;
+
+        foreach ($sets as $set) {
+            $difference += $set->getDifference($sidePlayerID);
         }
+
+        return $difference;
     }
 }
