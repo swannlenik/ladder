@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Ladder extends Model
 {
     protected $table = 'ladders';
-    protected $fillable = ['name', 'date', 'isSingle', 'deletable'];
+    protected $fillable = ['name', 'date', 'isSingle', 'deletable', 'sets'];
     public $timestamps = false;
 
     public function getDateToString(?string $format = 'Y-m-d'): string {

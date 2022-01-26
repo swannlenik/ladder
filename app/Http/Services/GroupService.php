@@ -46,6 +46,7 @@ class GroupService
         $playersService = app()->make(PlayersService::class);
         $resultsService = app()->make(ResultsService::class);
         $statistics = [];
+        $statisticsUnsorted = [];
         if ($isSingle) {
             $players = $playersService->getPLayersByGroupId($groupID);
         } else {
@@ -60,12 +61,18 @@ class GroupService
             ];
         }
 
-        array_multisort(
-            array_column($statisticsUnsorted, 'victories'), SORT_DESC,
-            array_column($statisticsUnsorted, 'points'), SORT_DESC,
-            $statisticsUnsorted);
-        foreach($statisticsUnsorted as $id => $su) {
-            $statistics[$su['playerID']] = array_merge($su, ['rank' => $id + 1]);
+        if (!empty($statisticsUnsorted)) {
+            array_multisort(
+                array_column($statisticsUnsorted, 'victories'), SORT_DESC,
+                array_column($statisticsUnsorted, 'points'), SORT_DESC,
+                $statisticsUnsorted);
+            foreach ($statisticsUnsorted as $id => $su) {
+                $statistics[$su['playerID']] = array_merge($su, ['rank' => $id + 1]);
+            }
+        } else {
+            foreach ($players as $id => $player) {
+
+            }
         }
         return $statistics;
     }

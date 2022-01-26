@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Game extends Model
 {
     protected $table = 'games';
-    protected $fillable = ['groupId', 'opponent1', 'opponent2', 'score1', 'score2', 'deletable', 'sets'];
+    protected $fillable = ['groupId', 'opponent1', 'opponent2', 'score1', 'score2', 'deletable'];
     public $timestamps = false;
 
     public function getWinner(): int {

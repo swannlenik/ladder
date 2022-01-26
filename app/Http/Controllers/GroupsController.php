@@ -11,7 +11,6 @@ use App\Http\Services\GroupService;
 use App\Http\Services\LadderService;
 use App\Http\Services\PlayersService;
 use App\Http\Services\ResultsService;
-use App\Rules\PlayersArray;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -119,13 +118,10 @@ class GroupsController extends Controller
         $validator = Validator::make($request->all(), [
             'players' => 'required|min:'.$minimum.'|max:5',
             'group-name' => 'required|string',
-            'group-rank' => 'required|integer|min:0',
         ], [
             'players.min' => 'A minimum of '.$minimum.' players is required',
             'players.max' => 'A maximum of 5 players is allowed',
             'group-name.required' => 'A Group Name is required',
-            'group-rank.required' => 'A Group Rank is required',
-            'group-rank.min' => 'A Group Rank cannot be lower than 0',
         ]);
 
         if ($validator->fails()) {
@@ -140,7 +136,7 @@ class GroupsController extends Controller
         if ($isSingle) {
             $games = $this->resultsService->createGames($group, $params['players']);
         } else {
-            $games = $this->resultsService->createDoubleGames($group, array_keys($params['players']));
+            $games = $this->resultsService->createDoubleGame($group, array_keys($params['players']));
         }
 
         return redirect()->route('view.ladder', ['ladderID' => $group->ladderId]);

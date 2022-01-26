@@ -40,8 +40,8 @@ class PlayersService
         $players = DB::select(
             'SELECT DISTINCT p.*
                 FROM players p
-                RIGHT JOIN doubles d ON d.opponent1 = p.id OR d.opponent2 = p.id OR d.opponent3 = p.id OR d.opponent4 = p.id
-                WHERE d.groupId = ?', [$groupId]);
+                RIGHT JOIN double_players dp ON dp.player1 = p.id OR dp.player2 = p.id OR dp.player3 = p.id OR dp.player4 = p.id OR dp.player5 = p.id
+                WHERE dp.groupId = ?', [$groupId]);
         foreach ($players as $player) {
             $list[$player->id] = $player;
         }
@@ -66,7 +66,7 @@ class PlayersService
         $players = DB::select(
             'SELECT DISTINCT p.*
                    FROM players p
-                   RIGHT JOIN doubles d ON d.opponent1 = p.id OR d.opponent2 = p.id OR d.opponent3 = p.id OR d.opponent4 = p.id
+                   RIGHT JOIN double_players dp ON dp.player1 = p.id OR dp.player2 = p.id OR dp.player3 = p.id OR dp.player4 = p.id OR dp.player5 = p.id
                    WHERE d.id = ?', [$gameID]
         );
         foreach ($players as $player) {
@@ -94,8 +94,8 @@ class PlayersService
             SELECT DISTINCT p.id
             FROM ladders l
             RIGHT JOIN groups g ON g.ladderId = l.id
-            RIGHT JOIN doubles d ON d.groupId = g.id
-            RIGHT JOIN players p ON p.id = d.opponent1 OR p.id = d.opponent2 OR p.id = d.opponent3 OR p.id = d.opponent4
+            RIGHT JOIN double_players dp ON dp.groupId = g.id
+            RIGHT JOIN players p ON p.id = dp.player1 OR p.id = dp.player2 OR p.id = dp.player3 OR p.id = dp.player4 OR dp.player5 = p.id
             WHERE l.id = ?) AND pa.available = 1
             ORDER BY pa.name ASC', [$ladder->id]);
         }
@@ -123,8 +123,8 @@ class PlayersService
             SELECT DISTINCT p.id
             FROM ladders l
             RIGHT JOIN groups g ON g.ladderId = l.id
-            RIGHT JOIN doubles d ON d.groupId = g.id
-            RIGHT JOIN players p ON p.id = d.opponent1 OR p.id = d.opponent2 OR p.id = d.opponent3 OR p.id = d.opponent4
+            RIGHT JOIN double_players dp ON dp.groupId = g.id
+            RIGHT JOIN players p ON p.id = dp.player1 OR p.id = dp.player2 OR p.id = dp.player3 OR p.id = dp.player4 OR dp.player5 = p.id
             WHERE l.id = ?) AND pa.available = 1
             ORDER BY pa.name ASC', [$ladderID]);
         foreach ($playersFromDB as $player) {

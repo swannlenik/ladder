@@ -7,6 +7,7 @@ namespace App\Http\Services;
 
 
 use App\Models\DoubleGame;
+use App\Models\DoublePlayers;
 use App\Models\Game;
 use App\Models\Group;
 use Illuminate\Support\Collection;
@@ -161,7 +162,16 @@ class ResultsService
 
     public function saveDoubleGame(array $params): DoubleGame
     {
-        $game = $this->getDoubleGameById((int)$params['game-id']);
+        if (empty($params['game-id'])) {
+            $game = new DoubleGame();
+            $game->opponent1 = $params['opponent1'];
+            $game->opponent2 = $params['opponent2'];
+            $game->opponent3 = $params['opponent3'];
+            $game->opponent4 = $params['opponent4'];
+            $game->groupId = $params['group-id'];
+        } else {
+            $game = $this->getDoubleGameById((int)$params['game-id']);
+        }
         $game->score1 = (int)$params['game-score-1'];
         $game->score2 = (int)$params['game-score-2'];
         $game->save();
@@ -180,18 +190,17 @@ class ResultsService
         return Game::firstOrCreate($params);
     }
 
-    public function createDoubleGame(array $params, int $groupID): DoubleGame
+    public function createDoubleGame(Group $group, array $params): DoublePlayers
     {
-        $params = [
-            'groupId' => $groupID,
-            'opponent1' => $params['opponent1'],
-            'opponent2' => $params['opponent2'],
-            'opponent3' => $params['opponent3'],
-            'opponent4' => $params['opponent4'],
-            'score1' => $params['score1'] ?? 0,
-            'score2' => $params['score2'] ?? 0
+        $groupParams = [
+            'groupId' => $group->id,
+            'player1' => $params[0],
+            'player2' => $params[1],
+            'player3' => $params[2],
+            'player4' => $params[3],
+            'player5' => $params[4] ?? 0,
         ];
-        return DoubleGame::firstOrCreate($params);
+        return DoublePlayers::firstOrCreate($groupParams);
     }
 
     public function createGames(Group $group, array $players, bool $fixedOrder = true): array
@@ -225,24 +234,6 @@ class ResultsService
         return $games;
     }
 
-    public function createDoubleGames(Group $group, array $players): array
-    {
-        $games = [];
-        $listGames = count($players) === 4 ? self::GROUP_4_GAMES_DOUBLES_INDEX : self::GROUP_5_GAMES_DOUBLES_INDEX;
-
-        foreach ($listGames as $game) {
-            $params = [
-                'opponent1' => $players[$game[0]],
-                'opponent2' => $players[$game[1]],
-                'opponent3' => $players[$game[2]],
-                'opponent4' => $players[$game[3]],
-            ];
-            $games[] = $this->createDoubleGame($params, $group->id);
-        }
-
-        return $games;
-    }
-
     public function createMultipleGames(array $unsortedPlayers, array $groups, bool $isSingle = true): array
     {
         $games = [];
@@ -260,7 +251,7 @@ class ResultsService
                 $game = $this->createGames($group, $players);
             } else {
                 sort($players);
-                $game = $this->createDoubleGames($group, $players);
+                $game = $this->createDoubleGame($group, $players);
             }
             $games[] = $game;
         }

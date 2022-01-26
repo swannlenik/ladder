@@ -4,7 +4,7 @@
 
     <div class="w-2/12 text-right pr-4 mt-8">{{ __('Ladder Name') }}</div>
     <div class="w-10/12 pl-2 mt-6">
-        <input type="text" name="ladder-name" value="{{ old('ladder-name', $ladder->name) }}" placeholder="{{ __('Name of new Ladder') }}"
+        <input type="text" name="ladder-name" value="{{ old('ladder-name', '') }}" placeholder="{{ __('Name of new Ladder') }}"
                class="w-full"/>
     </div>
 
