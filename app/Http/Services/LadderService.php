@@ -38,12 +38,14 @@ class LadderService
         $name = $params['ladder-name'];
         $date = new \DateTime($params['ladder-date']);
         $isSingle = $params['ladder-is-single'] ?? true;
+        $sets = $params['ladder-sets'] ?? 1;
 
         $ladder = Ladder::firstOrCreate([
             'name' => $name,
             'date' => $date->format('Y-m-d H:i:s'),
             'isSingle' => $isSingle,
             'deletable' => 0,
+            'sets' => $sets,
         ]);
         return $ladder;
     }

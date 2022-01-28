@@ -18,7 +18,9 @@
         </td>
 
         <td class="border border-slate-300 p-2 text-center">
-            <input type="text" name="game-score-1" value="0" class="text-center"/>
+            @for ($i = 1; $i <= $ladder->sets; $i++)
+                <input type="text" name="game-score-1[{{ $i }}]" value="0" class="text-center" />
+            @endfor
         </td>
 
         <td class="border border-slate-300 p-2 text-center">
@@ -26,7 +28,9 @@
         </td>
 
         <td class="border border-slate-300 p-2 text-center">
-            <input type="text" name="game-score-2" value="0" class="text-center"/>
+            @for ($i = 1; $i <= $ladder->sets; $i++)
+                <input type="text" name="game-score-2[{{ $i }}]" value="0" class="text-center" />
+            @endfor
         </td>
 
         <td class="border border-slate-300 p-2 text-left">

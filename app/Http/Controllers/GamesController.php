@@ -73,7 +73,11 @@ class GamesController extends Controller
     }
 
     public function saveDouble(Request $request): RedirectResponse {
-        $game = $this->resultsService->saveDoubleGame($request->post());
+        $params = $request->post();
+        $game = $this->resultsService->saveDoubleGame($params);
+        $params['game-id'] = $game->id;
+        $params['is-single'] = 0;
+        $this->setsService->saveScore($params);
         return redirect()->route('view.group', ['groupID' => $game->groupId]);
     }
 }

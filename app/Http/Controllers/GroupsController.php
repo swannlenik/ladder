@@ -58,12 +58,11 @@ class GroupsController extends Controller
         if ($group->isSingle === 1) {
             $players = $this->playersService->getPlayersByGroupId($groupId);
             $games = $this->resultsService->getGamesByGroupId($groupId);
-            $sets = $this->setsService->getSetsByGroupId($groupId);
         } else {
             $players = $this->playersService->getDoublePlayersByGroupId($groupId);
             $games = $this->resultsService->getDoubleGamesByGroupId($groupId);
-            $sets = [];
         }
+        $sets = $this->setsService->getSetsByGroupId($groupId, $ladder->isSingle === 1);
         $statistics = $this->groupService->getStatistics($groupId, (bool)$group->isSingle);
 
         $this->links = array_merge([
@@ -127,10 +126,12 @@ class GroupsController extends Controller
         $validator = Validator::make($request->all(), [
             'players' => 'required|min:'.$minimum.'|max:5',
             'group-name' => 'required|string',
+            'group-rank' => 'required|integer',
         ], [
             'players.min' => 'A minimum of '.$minimum.' players is required',
             'players.max' => 'A maximum of 5 players is allowed',
             'group-name.required' => 'A Group Name is required',
+            'group-rank.required' => 'A Group Rank is required',
         ]);
 
         if ($validator->fails()) {

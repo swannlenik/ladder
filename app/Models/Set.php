@@ -21,6 +21,10 @@ class Set extends Model
         return Set::where('gameId', '=', $gameID)->where('isSingle', '=', $isSingle)->orderBy('setsOrder', 'asc')->get();
     }
 
+    public static function getSetsByGameIdByOrderId(int $gameID, int $orderID, int $isSingle = 1): ?Set {
+        return Set::where('gameId', '=', $gameID)->where('isSingle', '=', $isSingle)->orderBy('setsOrder', 'asc')->first();
+    }
+
     public function getWinner(): int {
         if ($this->score1 === $this->score2) {
             return 0;

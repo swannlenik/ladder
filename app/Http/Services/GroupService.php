@@ -83,7 +83,7 @@ class GroupService
         $groups = $this->getGroupsByLadderId($ladderID);
         $links = [
             [
-                'name' => 'Back to Ladder Ranking',
+                'name' => 'Ladder Ranking',
                 'href' => route('ladder.ranking', ['ladderID' => $ladderID]),
             ],
         ];
@@ -117,15 +117,12 @@ class GroupService
             $games = $resultsService->getDoubleGamesByGroupId($groupID);
         }
 
-        $group->forceDelete();
         foreach ($games as $game) {
-            $sets = $this->setsService->getSetsByGameId($game->id, $group->isSingle);
-            foreach ($sets as $set) {
-                $set->forceDelete();
-            }
+            $sets = $this->setsService->deleteSets($game->id, $group->isSingle);
             $game->forceDelete();
         }
 
+        $group->forceDelete();
         return $ladderID;
     }
 

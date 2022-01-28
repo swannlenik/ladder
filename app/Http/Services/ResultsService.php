@@ -11,6 +11,7 @@ use App\Models\DoublePlayers;
 use App\Models\Game;
 use App\Models\Group;
 use App\Models\Ladder;
+use App\Models\Set;
 use Illuminate\Support\Collection;
 
 class ResultsService
@@ -97,7 +98,7 @@ class ResultsService
 
     public function getDoubleGamesByGroupId(int $groupID): Collection
     {
-        return DoubleGame::where('groupId', '=', $groupID)->get();
+        return DoubleGame::where('groupId', '=', $groupID)->orderBy('id', 'asc')->get();
     }
 
     public function getSingleGamesByGroupIdByPlayerId(int $groupID, int $playerID): Collection
@@ -172,18 +173,16 @@ class ResultsService
     public function saveDoubleGame(array $params): DoubleGame
     {
         if (empty($params['game-id'])) {
-            $game = new DoubleGame();
-            $game->opponent1 = $params['opponent1'];
-            $game->opponent2 = $params['opponent2'];
-            $game->opponent3 = $params['opponent3'];
-            $game->opponent4 = $params['opponent4'];
-            $game->groupId = $params['group-id'];
+            $gameParams = [];
+            $gameParams['opponent1'] = $params['opponent1'];
+            $gameParams['opponent2'] = $params['opponent2'];
+            $gameParams['opponent3'] = $params['opponent3'];
+            $gameParams['opponent4'] = $params['opponent4'];
+            $gameParams['groupId'] = $params['group-id'];
+            $game = DoubleGame::firstOrCreate($gameParams);
         } else {
             $game = $this->getDoubleGameById((int)$params['game-id']);
         }
-        $game->score1 = (int)$params['game-score-1'];
-        $game->score2 = (int)$params['game-score-2'];
-        $game->save();
         return $game;
     }
 

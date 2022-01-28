@@ -1,6 +1,7 @@
 <form method="POST" action="{{ route('save.duplicate.ladder') }}" class="flex flex-wrap mt-6">
     @csrf
     <input type="hidden" name="duplicate-ladder-id" value="{{ $ladder->id }}">
+    <input type="hidden" name="ladder-sets" value="{{ $ladder->sets }}">
 
     <div class="w-2/12 text-right pr-4 mt-8">{{ __('Ladder Name') }}</div>
     <div class="w-10/12 pl-2 mt-6">
