@@ -5,11 +5,15 @@
 
     @if (isset($accessRights['update.game']) && $accessRights['update.game'] === 'RW')
         <td class="border border-slate-300 p-2 text-center {{ $game->getWinner() === $game->opponent1 ? 'bg-green-400' : '' }}">
-            <input type="text" name="game-score-1" value="{{ $game->score1 }}" class="text-center" />
+            @for ($i = 1; $i <= $ladder->sets; $i++)
+            <input type="text" name="game-score-1[{{ $i }}]" value="{{ $sets[$game->id][$i]->score1 }}" class="text-center" />
+            @endfor
         </td>
     @else
         <td class="border border-slate-300 p-2 text-center {{ $game->getWinner() === $game->opponent1 ? 'bg-green-400' : '' }}">
-            {{ $game->score1 }}
+            @for ($i = 1; $i <= $ladder->sets; $i++)
+                <div class="w-full">{{ $sets[$game->id][$i]->score1 }}"</div>
+            @endfor
         </td>
     @endif
 
@@ -21,11 +25,15 @@
 
     @if (isset($accessRights['update.game']) && $accessRights['update.game'] === 'RW')
         <td class="border border-slate-300 p-2 text-center {{ $game->getWinner() === $game->opponent2 ? 'bg-green-400' : '' }}">
-            <input type="text" name="game-score-2" value="{{ $game->score2 }}" class="text-center" />
+            @for ($i = 1; $i <= $ladder->sets; $i++)
+                <input type="text" name="game-score-2[{{ $i }}]" value="{{ $sets[$game->id][$i]->score2 }}" class="text-center w-full" />
+            @endfor
         </td>
     @else
         <td class="border border-slate-300 p-2 text-center {{ $game->getWinner() === $game->opponent2 ? 'bg-green-400' : '' }}">
-            {{ $game->score2 }}
+            @for ($i = 1; $i <= $ladder->sets; $i++)
+                <div class="w-full">{{ $sets[$game->id][$i]->score2 }}"</div>
+            @endfor
         </td>
     @endif
 

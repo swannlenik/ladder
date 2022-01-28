@@ -15,6 +15,7 @@
                             <th class="border border-slate-300 p-2">{{ __('Name') }}</th>
                             <th class="border border-slate-300 p-2">{{ __('Date') }}</th>
                             <th class="border border-slate-300 p-2 text-center">{{ __('Singles / Doubles') }}</th>
+                            <th class="border border-slate-300 p-2 text-center">{{ __('# of Sets') }}</th>
                             <th class="border border-slate-300 p-2 text-center">{{ __('Actions') }}</th>
                         </tr>
                         </thead>
@@ -27,6 +28,7 @@
                                 </td>
                                 <td class="border border-slate-300 p-2">{{ $ladder->getDateToString() }}</td>
                                 <td class="border border-slate-300 p-2 text-center">{{ $ladder->isSingle ? 'Singles' : 'Doubles' }}</td>
+                                <td class="border border-slate-300 p-2 text-center">{{ $ladder->sets }} {{ __('game(s)') }}</td>
                                 <td class="border border-slate-300 p-2 text-center">
                                     <a href="{{ route('view.ladder', ['ladderID' => $ladder->id]) }}" class="btn-gray mx-2">{{ __('View') }}</a>
                                     @if (isset($accessRights['duplicate.ladder']) && $accessRights['delete.ladder'] === 'RW')
@@ -56,6 +58,11 @@
                                     <td class="border border-slate-300 p-2 text-center">
                                         <input type="checkbox" name="ladder-is-single" placeholder="" value="1"
                                                checked="checked"/>
+                                    </td>
+                                    <td class="border border-slate-300 p-2 text-center">
+                                        <input type="text" name="ladder-sets" placeholder="# of sets played for each game"
+                                               class="w-1/4 p-2 rounded-lg text-center"
+                                               value="1"/> {{ __('game(s)') }}
                                     </td>
                                     <td class="border border-slate-300 text-center" colspan="2">
                                         <input type="submit" name="ladder-submit" class="btn-green" value="{{ __('Create new Ladder') }}"/>

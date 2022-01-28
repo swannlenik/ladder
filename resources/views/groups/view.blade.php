@@ -7,7 +7,7 @@
     <div class="py-12">
         <div class="mx-auto sm:px-6 lg:px-12">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <tr class="p-6 bg-white border-b border-gray-200">
+                <div class="p-6 bg-white border-b border-gray-200">
 
                     @include('groups/playerTable')
 
@@ -40,6 +40,7 @@
                             <form method="POST" action="{{ route((bool)$group->isSingle ? 'save.game' : 'save.double.game', $game->id) }}">
                                 @csrf
                                 <input type="hidden" name="game-id" value="{{ $game->id }}"/>
+                                <input type="hidden" name="is-single" value="{{ $group->isSingle }}" />
 
                                 @if ((bool)$group->isSingle)
                                     @include('groups/updateSingle')
@@ -49,20 +50,24 @@
                             </form>
                         @endforeach
 
+                        @if (!(bool)$group->isSingle)
+                            @include('groups/createDouble')
+                        @endif
+
                         </tbody>
                     </table>
+                </div>
             </div>
         </div>
-    </div>
 
-    <x-slot name="footer">
-        <a href="{{ route('view.ladder', ['ladderID' => $group->ladderId]) }}" class="btn-blue ml-2 mr-2">
-            {{ __('Back to ladder') }}
-        </a>
-        @foreach($links as $link)
-            <a href="{{ $link['href'] }}" class="{{ $link['class'] ?? 'btn-gray' }} ml-2 mr-2">
-                {{ $link['name'] }}
+        <x-slot name="footer">
+            <a href="{{ route('view.ladder', ['ladderID' => $group->ladderId]) }}" class="btn-blue ml-2 mr-2">
+                {{ __('Back to ladder') }}
             </a>
-        @endforeach
-    </x-slot>
+            @foreach($links as $link)
+                <a href="{{ $link['href'] }}" class="{{ $link['class'] ?? 'btn-gray' }} ml-2 mr-2">
+                    {{ $link['name'] }}
+                </a>
+            @endforeach
+        </x-slot>
 </x-app-layout>

@@ -13,9 +13,11 @@ use Illuminate\Support\Facades\DB;
 class GroupService
 {
     protected PlayersService $playersService;
-    public function __construct(PlayersService $playersService)
+    protected SetsService $setsService;
+    public function __construct(PlayersService $playersService, SetsService $setsService)
     {
         $this->playersService = $playersService;
+        $this->setsService = $setsService;
     }
 
     public function getGroupById(int $groupID): Group {
@@ -46,6 +48,7 @@ class GroupService
         $playersService = app()->make(PlayersService::class);
         $resultsService = app()->make(ResultsService::class);
         $statistics = [];
+        $statisticsUnsorted = [];
         if ($isSingle) {
             $players = $playersService->getPLayersByGroupId($groupID);
         } else {
@@ -60,12 +63,18 @@ class GroupService
             ];
         }
 
-        array_multisort(
-            array_column($statisticsUnsorted, 'victories'), SORT_DESC,
-            array_column($statisticsUnsorted, 'points'), SORT_DESC,
-            $statisticsUnsorted);
-        foreach($statisticsUnsorted as $id => $su) {
-            $statistics[$su['playerID']] = array_merge($su, ['rank' => $id + 1]);
+        if (!empty($statisticsUnsorted)) {
+            array_multisort(
+                array_column($statisticsUnsorted, 'victories'), SORT_DESC,
+                array_column($statisticsUnsorted, 'points'), SORT_DESC,
+                $statisticsUnsorted);
+            foreach ($statisticsUnsorted as $id => $su) {
+                $statistics[$su['playerID']] = array_merge($su, ['rank' => $id + 1]);
+            }
+        } else {
+            foreach ($players as $id => $player) {
+
+            }
         }
         return $statistics;
     }
@@ -74,7 +83,7 @@ class GroupService
         $groups = $this->getGroupsByLadderId($ladderID);
         $links = [
             [
-                'name' => 'Back to Ladder Ranking',
+                'name' => 'Ladder Ranking',
                 'href' => route('ladder.ranking', ['ladderID' => $ladderID]),
             ],
         ];
@@ -108,11 +117,12 @@ class GroupService
             $games = $resultsService->getDoubleGamesByGroupId($groupID);
         }
 
-        $group->forceDelete();
         foreach ($games as $game) {
+            $sets = $this->setsService->deleteSets($game->id, $group->isSingle);
             $game->forceDelete();
         }
 
+        $group->forceDelete();
         return $ladderID;
     }
 
