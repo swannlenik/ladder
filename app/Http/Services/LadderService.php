@@ -37,7 +37,7 @@ class LadderService
     public function createLadder(array $params): Ladder {
         $name = $params['ladder-name'];
         $date = new \DateTime($params['ladder-date']);
-        $isSingle = $params['ladder-is-single'] ?? true;
+        $isSingle = $params['ladder-is-single'] ?? false;
         $sets = $params['ladder-sets'] ?? 1;
 
         $ladder = Ladder::firstOrCreate([
