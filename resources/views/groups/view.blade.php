@@ -8,7 +8,6 @@
         <div class="mx-auto sm:px-6 lg:px-12">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-
                     @include('groups/playerTable')
 
                     <table class="border-collapse border border-slate-400 w-full mt-8">
@@ -33,9 +32,24 @@
                         </thead>
                         <tbody>
 
-                        <h2 class="font-semibold text-xl text-gray-800 leading-tight mt-6">
-                            {{ __('Games Order') }}
-                        </h2>
+                        <div class="w-full">
+                            <h2 class="font-semibold text-xl text-gray-800 leading-tight mt-6">
+                                {{ __('Games Order') }}
+                            </h2>
+                        </div>
+
+                        <div class="w-full mt-6">
+                            @foreach($links as $link)
+                                @if ($link['name'] === 'Create 1 Group')
+                                    @continue
+                                @endif
+
+                                <a href="{{ $link['href'] }}" class="{{ $link['class'] ?? 'btn-gray' }} ml-2 mr-2">
+                                    {{ $link['name'] }}
+                                </a>
+                            @endforeach
+                        </div>
+
                         @foreach ($games as $game)
                             <form method="POST" action="{{ route((bool)$group->isSingle ? 'save.game' : 'save.double.game', $game->id) }}">
                                 @csrf

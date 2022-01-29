@@ -162,7 +162,6 @@ class ResultsService
 
     public function saveGame(array $params): Game
     {
-        dd($params);
         $game = $this->getGameById((int)$params['game-id']);
         $game->score1 = (int)$params['game-score-1'];
         $game->score2 = (int)$params['game-score-2'];

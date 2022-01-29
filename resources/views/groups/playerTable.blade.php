@@ -8,8 +8,14 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($players as $player)
-        @include('groups/playerLine')
-    @endforeach
+    @if (empty($statistics))
+        @foreach($players as $player)
+            @include('groups/playerLine')
+        @endforeach
+    @else
+        @foreach($statistics as $playerID => $data)
+            @include('groups/playerStats')
+        @endforeach
+    @endif
     </tbody>
 </table>
