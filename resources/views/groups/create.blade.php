@@ -5,6 +5,8 @@
         </h2>
     </x-slot>
 
+    <?php dump(old('players')); ?>
+
     <div class="py-12">
         <div class="mx-auto sm:px-6 lg:px-12">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -44,9 +46,15 @@
                         <div class="w-full mt-6">
                             <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ count($players) }} {{ __('Players available') }}</h2>
                         </div>
-                        <div class="grid grid-cols-4 gap-4">
+                        <div class="w-full flex py-2">
+
+                            <select name="players[]" multiple class="w-full" size="10">
 
                         @foreach ($players as $player)
+                                <option value="{{ $player->id }}" {{ in_array($player->id, old('players') ?? []) ? 'selected="selected"' : '' }}>
+                                    {{ $player->name }}
+                                </option>
+                                @continue
                             <div class="w-full flex flex-row h-8 py-2">
                                 <div class="w-auto max-w-sm text-right pr-2">
                                     <input type="checkbox" name="players[{{ $player->id }}]" {{ isset(old('players')[$player->id]) ? 'checked="checked"' : '' }}" />
@@ -56,6 +64,7 @@
                                 </div>
                             </div>
                         @endforeach
+                            </select>
                         </div>
 
                         <div class="w-full text-left py-2">

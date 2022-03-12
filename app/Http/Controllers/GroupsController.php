@@ -122,6 +122,7 @@ class GroupsController extends Controller
     public function save(Request $request): RedirectResponse {
         $ladder = $this->ladderService->findById((int)$request->post('group-ladder-id'));
         $minimum = (bool)$ladder->isSingle ? '3' : '4';
+        $playersID = [];
 
         $validator = Validator::make($request->all(), [
             'players' => 'required|min:'.$minimum.'|max:5',
@@ -141,13 +142,16 @@ class GroupsController extends Controller
         }
 
         $params = array_merge($validator->safe()->all(), ['group-ladder-id' => $ladder->id]);
+        foreach ($params['players'] as $idPlayer) {
+            $playersID[$idPlayer] = $idPlayer;
+        }
         $isSingle = $ladder->isSingle === 1;
         $group = $this->groupService->createGroup($params, $isSingle);
         if ($isSingle) {
-            $games = $this->resultsService->createGames($group, $params['players']);
+            $games = $this->resultsService->createGames($group, $playersID);
             $sets = $this->setsService->createSets($games, $ladder);
         } else {
-            $games = $this->resultsService->createDoubleGame($group, array_keys($params['players']));
+            $games = $this->resultsService->createDoubleGame($group, $params['players']);
         }
 
         return redirect()->route('view.ladder', ['ladderID' => $group->ladderId]);
