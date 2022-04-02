@@ -113,6 +113,8 @@ class LaddersController extends Controller
             }
             $statisticsByGroup[$group->id] = $this->groupService->getStatistics($group->id, (bool)$ladder->isSingle);
         }
+        $nextLadderEnabled = $this->groupService->canCreateNextLadder($statisticsByGroup);
+
         $this->links = [
             [
                 'name' => 'Back to Ladder',
@@ -122,12 +124,14 @@ class LaddersController extends Controller
                 'name' => 'Duplicate Ladder',
                 'href' => route('duplicate.ladder', ['ladderID' => $ladderID]),
             ],
-            [
+        ];
+        if ($nextLadderEnabled) {
+            $this->links[] = [
                 'name' => 'Next Ladder',
                 'href' => route('next.ladder', ['ladderID' => $ladderID]),
                 'class' => 'btn-green',
-            ],
-        ];
+            ];
+        }
 
         return view('ladders/rankings', [
             'ladder' => $ladder,
@@ -138,6 +142,7 @@ class LaddersController extends Controller
             'navigationLinks' => $this->navigationLinks,
             'accessRights' => $listAccessRights,
             'rankingClasses' => $this->rankingClasses,
+            'nextLadderEnabled' => $nextLadderEnabled,
         ]);
     }
 

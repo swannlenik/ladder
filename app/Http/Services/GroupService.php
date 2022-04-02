@@ -143,4 +143,25 @@ class GroupService
         }
         return $groups;
     }
+
+    public function canCreateNextLadder(array $statistics): bool {
+        if (empty($statistics)) {
+            return false;
+        }
+
+        foreach ($statistics as $groupID => $group) {
+            $victoryTotal = 0;
+            $pointsTotal = 0;
+            foreach ($group as $playerID => $playerStats) {
+                $victoryTotal += $playerStats['victories'];
+                $pointsTotal += $playerStats['points'];
+            }
+
+            if ($victoryTotal === 0 && $pointsTotal === 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
