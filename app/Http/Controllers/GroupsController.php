@@ -53,7 +53,9 @@ class GroupsController extends Controller
         $group = $this->groupService->getGroupById($groupId);
         $ladder = $this->ladderService->findById($group->ladderId);
         $groupsLinks = $this->groupService->getGroupsLinksByLadderId($group->ladderId);
-        $listAccessRights = $this->accessRightsService->hasAccessToPages(auth()->user()->getAuthIdentifier(), ['update.game', 'update.double.game', 'create.group', 'create.groups']);
+        $listAccessRights = $this->accessRightsService->hasAccessToPages(auth()->user()->getAuthIdentifier(), ['update.game', 'update.double.game', 'create.group', 'create.groups', 'delete.game', 'delete.double.game']);
+
+
 
         if ($group->isSingle === 1) {
             $players = $this->playersService->getPlayersByGroupId($groupId);

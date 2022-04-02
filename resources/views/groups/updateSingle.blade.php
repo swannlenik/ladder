@@ -19,7 +19,12 @@
 
     <td class="border border-slate-300 p-2 text-center">
         @if (isset($accessRights['update.game']) && $accessRights['update.game'] === 'RW')
-            <input type="submit" name="update-game" value="{{ __('Update Score') }}" class="btn-green" />
+            <input type="submit" name="update-game" value="{{ __('Update') }}" class="btn-green" />
+        @endif
+        @if (isset($accessRights['delete.game']) && $accessRights['delete.game'] === 'RW')
+            <a href="{{ route('delete.game', $game->id) }}" class="btn-red">
+                {{ __('Delete') }}
+            </a>
         @endif
     </td>
 

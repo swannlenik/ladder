@@ -31,6 +31,8 @@ class Roles
         'save.double.game',
         'update.double.game',
         'update.game',
+        'delete.game',
+        'delete.double.game',
         'view.players',
         'create.player',
         'save.player',
@@ -57,6 +59,8 @@ class Roles
         'save.game',
         'save.double.game',
         'save.duplicate.ladder',
+        'delete.game',
+        'delete.double.game',
         'update.double.game',
         'update.game',
         'view.players',
@@ -97,6 +101,8 @@ class Roles
         'view.ladder',
         'view.players',
         'ladder.ranking',
+        'delete.game',
+        'delete.double.game',
     ];
 
     const ROLES = [

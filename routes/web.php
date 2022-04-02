@@ -36,6 +36,8 @@ Route::middleware('auth')->prefix('players')->group(function () {
 });
 
 Route::middleware('auth')->prefix('games')->group(function () {
+    Route::get('/delete/{gameID}', [GamesController::class, 'delete'])->name('delete.game');
+    Route::get('/deleteDouble/{gameID}', [GamesController::class, 'deleteDouble'])->name('delete.double.game');
     Route::get('/update/{gameID}', [GamesController::class, 'update'])->name('update.game');
     Route::get('/updateDouble/{gameID}', [GamesController::class, 'updateDouble'])->name('update.double.game');
     Route::post('/save', [GamesController::class, 'save'])->name('save.game');

@@ -38,6 +38,8 @@ class Routes
         'DUPLICATE_LADDER' => 'Page to duplicate an existing Ladder',
         'SAVE_DUPLICATE_LADDER' => 'Save Duplicate Ladder',
         'NEXT_LADDER' => 'Page to create the Next Ladder (new groups based on global ranking)',
+        'DELETE_GAME' => 'Delete a single game result',
+        'DELETE_DOUBLE_GAME' => 'Delete a double game result',
     ];
 
 }

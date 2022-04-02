@@ -11,7 +11,7 @@ use App\Models\DoublePlayers;
 use App\Models\Game;
 use App\Models\Group;
 use App\Models\Ladder;
-use App\Models\Set;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 
 class ResultsService
@@ -333,5 +333,13 @@ class ResultsService
             default:
                 return [];
         }
+    }
+
+    public function deleteSingleGame(int $gameID): void {
+        DB::delete('DELETE FROM games WHERE id = '.$gameID);
+    }
+
+    public function deleteDoubleGame(int $gameID): void {
+        DB::delete('DELETE FROM doubles WHERE id = '.$gameID);
     }
 }

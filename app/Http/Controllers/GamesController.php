@@ -9,7 +9,6 @@ namespace App\Http\Controllers;
 use App\Http\Services\PlayersService;
 use App\Http\Services\ResultsService;
 use App\Http\Services\SetsService;
-use App\Models\Game;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -78,6 +77,18 @@ class GamesController extends Controller
         $params['game-id'] = $game->id;
         $params['is-single'] = 0;
         $this->setsService->saveScore($params);
+        return redirect()->route('view.group', ['groupID' => $game->groupId]);
+    }
+
+    public function delete(int $gameID): RedirectResponse {
+        $game = $this->resultsService->getGameById($gameID);
+        $this->resultsService->deleteSingleGame($gameID);
+        return redirect()->route('view.group', ['groupID' => $game->groupId]);
+    }
+
+    public function deleteDouble(int $gameID): RedirectResponse {
+        $game = $this->resultsService->getDoubleGameById($gameID);
+        $this->resultsService->deleteDoubleGame($gameID);
         return redirect()->route('view.group', ['groupID' => $game->groupId]);
     }
 }
