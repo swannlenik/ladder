@@ -35,7 +35,12 @@
                                     <a href="{{ route('duplicate.ladder', ['ladderID' => $ladder->id]) }}" class="btn-green mx-2">{{ __('Duplicate') }}</a>
                                     @endif
                                     @if (isset($accessRights['delete.ladder']) && $accessRights['duplicate.ladder'] === 'RW')
-                                        <a href="{{ route('delete.ladder', ['ladderID' => $ladder->id]) }}" class="btn-red mx-2">{{ __('Delete') }}</a>
+                                        <a href="{{ route('delete.confirm', [
+                                            'previousRoute' => 'view.all.ladders',
+                                            'deleteRoute' => 'delete.ladder',
+                                            'deleteParamName' => 'ladderID',
+                                            'deleteParamValue' => $ladder->id
+                                        ]) }}" class="btn-red mx-2">{{ __('Delete') }}</a>
                                     @endif
                                 </td>
                             </tr>

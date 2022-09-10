@@ -10,6 +10,10 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     @include('groups/playerTable')
 
+                    @if (!(bool)$group->isSingle && count($players) === 5)
+                        @include('groups/suggestedOrderGroupOf5')
+                    @endif
+
                     <table class="border-collapse border border-slate-400 w-full mt-8">
                         <thead class="bg-slate-100">
                         <tr>
@@ -73,7 +77,7 @@
                 </div>
             </div>
         </div>
-
+        
         <x-slot name="footer">
             <a href="{{ route('view.ladder', ['ladderID' => $group->ladderId]) }}" class="btn-blue ml-2 mr-2">
                 {{ __('Back to ladder') }}

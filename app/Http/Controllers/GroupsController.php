@@ -99,6 +99,7 @@ class GroupsController extends Controller
             'rankingClasses' => $this->rankingClasses,
             'navigationLinks' => $this->getNavigationLinks(),
             'accessRights' => $listAccessRights,
+            'suggestedOrder' => $this->resultsService::GROUP_5_GAMES_DOUBLES_INDEX,
         ]);
     }
 

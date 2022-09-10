@@ -18,7 +18,6 @@ class DashboardController extends Controller
         $accessRights = $ars->getRightsByUserId($user->getAuthIdentifier());
         $routes = Routes::Routes;
 
-
         return view('dashboard', [
             'accessRights' => $accessRights,
             'routes' => $routes,

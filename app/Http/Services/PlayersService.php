@@ -83,7 +83,7 @@ class PlayersService
             SELECT pa.* FROM players pa WHERE id NOT IN (
             SELECT DISTINCT p.id
             FROM ladders l
-            RIGHT JOIN groups g ON g.ladderId = l.id
+            RIGHT JOIN `groups` g ON g.ladderId = l.id
             RIGHT JOIN games ga ON ga.groupId = g.id
             RIGHT JOIN players p ON p.id = ga.opponent1 OR p.id = ga.opponent2
             WHERE l.id = ?) AND pa.available = 1
@@ -93,7 +93,7 @@ class PlayersService
             SELECT pa.* FROM players pa WHERE id NOT IN (
             SELECT DISTINCT p.id
             FROM ladders l
-            RIGHT JOIN groups g ON g.ladderId = l.id
+            RIGHT JOIN `groups` g ON g.ladderId = l.id
             RIGHT JOIN double_players dp ON dp.groupId = g.id
             RIGHT JOIN players p ON p.id = dp.player1 OR p.id = dp.player2 OR p.id = dp.player3 OR p.id = dp.player4 OR dp.player5 = p.id
             WHERE l.id = ?) AND pa.available = 1

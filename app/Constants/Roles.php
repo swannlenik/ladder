@@ -41,6 +41,7 @@ class Roles
         'set.all.available.players',
         'set.available.players',
         'ladder.ranking',
+        'delete.confirm',
     ];
     const ROLE_LADDER_EDITOR = [
         'dashboard',
@@ -71,6 +72,7 @@ class Roles
         'set.all.available.players',
         'set.available.players',
         'ladder.ranking',
+        'delete.confirm',
     ];
     const ROLE_ADMIN = [
         'available.players',
@@ -103,6 +105,7 @@ class Roles
         'ladder.ranking',
         'delete.game',
         'delete.double.game',
+        'delete.confirm',
     ];
 
     const ROLES = [

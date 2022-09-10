@@ -20,7 +20,7 @@ class CreateDoublePlayersTable extends Migration
             $table->integer('player3');
             $table->integer('player4');
             $table->integer('player5')->default(0);
-            $table->primary(['groupId', 'player1', 'player2', 'player3', 'player4', 'player5']);
+            $table->primary(['groupId', 'player1', 'player2', 'player3', 'player4', 'player5'], 'double_players_primary_key');
         });
     }
 

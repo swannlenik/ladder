@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DeleteController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -73,4 +74,9 @@ Route::middleware('auth')->prefix('users')->group(function () {
 Route::middleware('auth')->prefix('statistics')->group(function () {
     Route::get('/view/{playerID?}', [StatisticsController::class, 'view'])->name('player.statistics');
 });
+
+Route::middleware('auth')->group(function () {
+    Route::get('/delete', [DeleteController::class, 'confirm'])->name('delete.confirm');
+});
+
 require __DIR__.'/auth.php';

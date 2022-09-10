@@ -16,12 +16,12 @@ use Illuminate\Support\Collection;
 
 class ResultsService
 {
-    private const GROUP_3_GAMES_SINGLES_INDEX = [
+    public const GROUP_3_GAMES_SINGLES_INDEX = [
         [1, 2],
         [0, 2],
         [0, 1],
     ];
-    private const GROUP_4_GAMES_SINGLES_INDEX = [
+    public const GROUP_4_GAMES_SINGLES_INDEX = [
         [0, 2],
         [1, 3],
         [0, 3],
@@ -29,7 +29,7 @@ class ResultsService
         [0, 1],
         [2, 3],
     ];
-    private const GROUP_5_GAMES_SINGLES_INDEX = [
+    public const GROUP_5_GAMES_SINGLES_INDEX = [
         [1, 3],
         [2, 4],
         [0, 2],
@@ -41,12 +41,12 @@ class ResultsService
         [0, 1],
         [2, 3],
     ];
-    private const GROUP_4_GAMES_DOUBLES_INDEX = [
+    public const GROUP_4_GAMES_DOUBLES_INDEX = [
         [0, 1, 2, 3],
         [0, 2, 1, 3],
         [0, 3, 1, 2],
     ];
-    private const GROUP_5_GAMES_DOUBLES_INDEX = [
+    public const GROUP_5_GAMES_DOUBLES_INDEX = [
         [0, 1, 2, 3],
         [0, 4, 1, 2],
         [0, 3, 1, 4],

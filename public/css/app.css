@@ -1667,3 +1667,24 @@ a {
   }
 }
 
+.suggested-order__title {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.suggested-order__pair {
+    font-weight: bold;
+    color: #555555;
+}
+
+.suggested-order__vs {
+    margin: auto 1rem;
+    font-style: italic;
+}
+
+.suggested-order__explain {
+    margin: 0.5rem auto;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+}

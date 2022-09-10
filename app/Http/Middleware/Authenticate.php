@@ -10,7 +10,7 @@ use Illuminate\Routing\Route;
 
 class Authenticate extends Middleware
 {
-    public function handle(Request $request, Closure $next, ...$guards) {
+    public function handle($request, Closure $next, ...$guards) {
         /** @var AccessRightsService $ars */
         $ars = app()->make(AccessRightsService::class);
         $user = auth()->user();

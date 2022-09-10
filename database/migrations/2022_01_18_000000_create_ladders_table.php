@@ -16,7 +16,7 @@ class CreateLaddersTable extends Migration
         Schema::create('ladders', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->timestamp('date')->default('CURRENT_TIMESTAMP');
+            $table->timestamp('date')->useCurrent();
             $table->tinyInteger('deletable')->default(0);
             $table->tinyInteger('isSingle')->default(1);
         });

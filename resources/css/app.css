@@ -89,3 +89,18 @@
 .group__player-ranking--bronze {
     background-color: #CD7F32;
 }
+
+.suggested-order__title {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.suggested-order__pair {
+    font-weight: bold;
+    color: #555555;
+}
+
+.suggested-order__vs {
+    margin: auto 1rem;
+    font-style: italic;
+}
